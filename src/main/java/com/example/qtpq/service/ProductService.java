@@ -3,7 +3,9 @@ package com.example.qtpq.service;
 import com.example.qtpq.dto.ResponseObject;
 import com.example.qtpq.enums.ResponseCode;
 import com.example.qtpq.message.request.CreateProductRequest;
+import com.example.qtpq.model.Category;
 import com.example.qtpq.model.Product;
+import com.example.qtpq.repository.CategoryRepository;
 import com.example.qtpq.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,20 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public ResponseObject createProduct(CreateProductRequest createProductRequest) {
         ResponseObject responseObject = new ResponseObject();
         try {
+            Category category = categoryRepository.findByCategoryName(createProductRequest.getCategories().getCategoryName());
+            if(category.getCategoryName().isEmpty()){
+                throw new IllegalStateException("This category does not exist");
+            }
+
             log.debug("object {} ------", createProductRequest);
             Product createProduct = new Product(createProductRequest);
+            createProduct.setCategories(category);
             Product savedProduct = productRepository.save(createProduct);
 
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
@@ -70,10 +80,14 @@ public class ProductService {
             responseObject.setData("This product does not exist");
             return responseObject;
         }
+        Category category = categoryRepository.findByCategoryName(createProductRequest.getCategories().getCategoryName());
+        if(category.getCategoryName().isEmpty()){
+            throw new IllegalStateException("This category does not exist");
+        }
         try{
             Product updatedProduct = productOptional.get();
             updatedProduct.setProductName(createProductRequest.getProductName());
-            updatedProduct.setCategories(createProductRequest.getCategories());
+            updatedProduct.setCategories(category);
             updatedProduct.setImgLink(createProductRequest.getImg());
             updatedProduct.setDescription(createProductRequest.getDescription());
             updatedProduct.setUnitPrice(createProductRequest.getUnitPrice());

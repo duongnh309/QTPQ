@@ -28,7 +28,7 @@ public class Menu {
     private LocalDate endDate;
     private String status;
     //with seller
-    @OneToOne(mappedBy = "menu")
+    @OneToOne(mappedBy = "menu", fetch = FetchType.LAZY, orphanRemoval = true)
     private Seller seller;
     //with order
     @OneToMany(mappedBy = "menu")

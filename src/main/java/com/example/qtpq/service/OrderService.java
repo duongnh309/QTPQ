@@ -1,9 +1,6 @@
 package com.example.qtpq.service;
 
-import com.example.qtpq.dto.CreateOrderDTO;
-import com.example.qtpq.dto.ResponseObject;
-import com.example.qtpq.dto.ResponseOrderDTO;
-import com.example.qtpq.dto.ResponseSellerDTO;
+import com.example.qtpq.dto.*;
 import com.example.qtpq.enums.ResponseCode;
 import com.example.qtpq.model.*;
 import com.example.qtpq.repository.*;
@@ -56,7 +53,7 @@ public class OrderService {
             orders.setMenu(seller.getMenu());
 
             Orders savedOrder = orderRepository.save(orders);
-            log.info("saved orders", savedOrder.getId());
+            log.info("saved orders {}", savedOrder.getId());
             int length = createOrderDTO.getOrderDetailsDTOS().size();
             double totalPrice = 0;
             for (int i = 0; i < length; i++) {
@@ -82,11 +79,20 @@ public class OrderService {
             Transaction transaction = new Transaction(null, amount, date, savedOrder.getSeller().getWallet(), savedOrder);
             Transaction savedTrans = transactionRepository.save(transaction);
             Wallet wallet = savedOrder.getSeller().getWallet();
-            wallet.setBalance(amount);
+            wallet.setBalance(wallet.getBalance() + amount);
+
+//            List<Transaction> transactionDTOList = new ArrayList<>();
 //            List<Transaction> transactions = transactionRepository.findAllByWallet(wallet.getWalletId());
-//            System.out.println("Transaction List " + transactions.get(0));
-//            wallet.setTransactions(transactions);
+//
+//            for (int i = 0; i < transactions.size(); i++) {
+//                Transaction trans = new Transaction();
+//                trans.setAmount(transactions.get(i).getAmount());
+//                trans.setCreateDate(transactions.get(i).getCreateDate());
+//                transactionDTOList.add(trans);
+//            }
+//            System.out.println("ta daaaaaaaaaa -------------------------" + transactions.size());
             walletRepository.save(wallet);
+
 
 
             savedOrder.setTotalPrice(totalPrice);
@@ -126,6 +132,7 @@ public class OrderService {
 
         return responseObject;
     }
+
     public ResponseObject getOrderById(Long id) {
         ResponseObject responseObject = new ResponseObject();
         try {

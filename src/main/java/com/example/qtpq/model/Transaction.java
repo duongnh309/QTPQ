@@ -1,5 +1,6 @@
 package com.example.qtpq.model;
 
+import com.example.qtpq.dto.ResponseTransactionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
+
 
 @Entity
 @NoArgsConstructor
@@ -27,7 +26,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Orders orders;
+
+
 
 }

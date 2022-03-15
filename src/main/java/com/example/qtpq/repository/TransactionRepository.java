@@ -13,6 +13,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Transaction getTransactionsByOrdersId(Long id);
 
-    @Query(value = "SELECT * FROM qtpq.transaction where  wallet_id = ?1" , nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction where  wallet_id = ?1" , nativeQuery = true)
     List<Transaction> findAllByWallet(Long id);
 }

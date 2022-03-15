@@ -5,6 +5,8 @@ import com.example.qtpq.enums.ResponseCode;
 import com.example.qtpq.model.Menu;
 import com.example.qtpq.model.Partner;
 import com.example.qtpq.model.Seller;
+import com.example.qtpq.repository.MenuRepository;
+import com.example.qtpq.repository.PartnerInMenuRepository;
 import com.example.qtpq.repository.PartnerRepository;
 import com.example.qtpq.repository.SellerRepository;
 import lombok.AllArgsConstructor;
@@ -24,15 +26,27 @@ public class SellerService {
 
     private PartnerRepository partnerRepository;
 
+    private MenuRepository menuRepository;
+
+    private PartnerInMenuRepository partnerInMenuRepository;
+
     public ResponseObject createSeller(SellerDTO sellerDTO) {
         ResponseObject responseObject = new ResponseObject();
         try {
             Partner partner = partnerRepository.findById(sellerDTO.getPartnerId()).orElseThrow(() -> {
                 throw new IllegalStateException("This partner does not exist");
             });
+            Menu menu = menuRepository.findById(sellerDTO.getMenuId()).orElseThrow(() -> {
+                throw new IllegalStateException("This Menu does not exist");
+            });
+
+            if (partnerInMenuRepository.isInPartner(sellerDTO.getMenuId(), sellerDTO.getPartnerId()) != 1){
+                throw new IllegalStateException("This partner does not have menu " + menu.getName());
+            }
 
             Seller seller = new Seller(sellerDTO);
             seller.setPartner(partner);
+            seller.setMenu(menu);
 
 
             Seller savedSeller = sellerRepository.save(seller);
@@ -161,7 +175,7 @@ public class SellerService {
             }
             responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
-            responseObject.setData(true);
+            responseObject.setData(seller.getMenu().getId());
         }catch (Exception e) {
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());

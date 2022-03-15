@@ -27,14 +27,17 @@ public class SellerDTO {
     private String mail;
     @NotNull(message = "partner id cant be null")
     private Long partnerId;
+    @NotNull(message = "Menu id cant be null")
+    private Long menuId;
+
 
 
     public SellerDTO(Seller seller) {
         this.username = seller.getUsername();
-        this.password = seller.getPassword();
         this.qrCode = seller.getQrCode();
         this.name = seller.getName();
         this.phone = seller.getPhone();
         this.mail = seller.getMail();
+        this.partnerId = seller.getPartner().getId();
     }
 }

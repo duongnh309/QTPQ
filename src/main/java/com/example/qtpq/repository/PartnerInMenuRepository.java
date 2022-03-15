@@ -18,4 +18,6 @@ public interface PartnerInMenuRepository extends JpaRepository<PartnerInMenu, Lo
     @Query(value = "SELECT CASE WHEN count(menu_id) > 0 THEN 1 ELSE 0 END " +
             "checkExist FROM partner_in_menu where menu_id =?1 and partner_id =?2 limit 1" , nativeQuery = true)
     int isInPartner(Long menuId , Long partnerId);
+
+
 }

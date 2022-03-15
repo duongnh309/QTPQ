@@ -42,6 +42,6 @@ public class Orders {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
     //with transaction
-    @OneToOne(mappedBy = "orders")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "orders")
     private Transaction transaction;
 }

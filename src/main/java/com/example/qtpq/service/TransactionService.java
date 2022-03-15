@@ -19,12 +19,6 @@ public class TransactionService {
         try {
             Transaction transaction = transactionRepository.getTransactionsByOrdersId(id);
 
-            List<Transaction> transactions = transactionRepository.findAllByWallet(Long.valueOf(3));
-            for (int i = 0; i < transactions.size(); i++) {
-                ResponseTransactionDTO responseTransactionDTO = new ResponseTransactionDTO(transactions.get(i));
-                System.out.println("data "  + responseTransactionDTO.getWallet());
-            }
-
             responseObject.setData(new ResponseTransactionDTO(transaction));
             responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());

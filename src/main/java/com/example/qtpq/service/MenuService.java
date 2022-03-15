@@ -60,8 +60,7 @@ public class MenuService {
             responseObject.setData("This menu does not exist");
             return responseObject;
         }
-        log.info("dataaa {}", menuDTO);
-        responseObject.setData(menuOptional);
+        responseObject.setData(menuDTO);
         responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
         responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
         return responseObject;

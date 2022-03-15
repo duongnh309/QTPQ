@@ -23,11 +23,12 @@ public class Seller {
     private String name;
     private String phone;
     private String mail;
+    @Column(unique = true)
     private String username;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Menu menu;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Wallet wallet;
     //with order
     @OneToMany(mappedBy = "seller")
