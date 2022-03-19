@@ -2,12 +2,10 @@ package com.example.qtpq.service;
 
 import com.example.qtpq.dto.*;
 import com.example.qtpq.enums.ResponseCode;
-import com.example.qtpq.model.Transaction;
+import com.example.qtpq.model.Transactions;
 import com.example.qtpq.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TransactionService {
@@ -17,9 +15,9 @@ public class TransactionService {
     public ResponseObject getByOrdersId(Long id){
         ResponseObject responseObject = new ResponseObject();
         try {
-            Transaction transaction = transactionRepository.getTransactionsByOrdersId(id);
+            Transactions transactions = transactionRepository.getTransactionsByOrdersId(id);
 
-            responseObject.setData(new ResponseTransactionDTO(transaction));
+            responseObject.setData(new ResponseTransactionDTO(transactions));
             responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
         }catch (Exception e){

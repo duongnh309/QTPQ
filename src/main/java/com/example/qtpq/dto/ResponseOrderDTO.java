@@ -41,7 +41,7 @@ public class ResponseOrderDTO {
             OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(orders.getOrderDetails().get(i).getProduct().getId(), orders.getOrderDetails().get(i).getQuality());
             this.orderDetails.add(orderDetailsDTO);
         }
-        this.transaction = new TransactionDTO(orders.getTransaction());
+        this.transaction = new TransactionDTO(orders.getTransactions());
         this.state = orders.getState();
     }
 }

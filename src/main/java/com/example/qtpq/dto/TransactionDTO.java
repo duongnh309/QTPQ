@@ -1,6 +1,6 @@
 package com.example.qtpq.dto;
 
-import com.example.qtpq.model.Transaction;
+import com.example.qtpq.model.Transactions;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +17,9 @@ public class TransactionDTO {
     private LocalDate dateCreate;
     private WalletDTO wallet;
 
-    public TransactionDTO(Transaction transaction){
-        this.amount = transaction.getAmount();
-        this.dateCreate = transaction.getCreateDate();
-       this.wallet = new WalletDTO(transaction.getWallet());
+    public TransactionDTO(Transactions transactions){
+        this.amount = transactions.getAmount();
+        this.dateCreate = transactions.getCreateDate();
+       this.wallet = new WalletDTO(transactions.getWallet());
     }
 }

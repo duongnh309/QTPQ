@@ -82,8 +82,8 @@ public class OrderService {
                 productRepository.save(product);
             }
             double amount = totalPrice * 0.03;
-            Transaction transaction = new Transaction(null, amount, date, savedOrder.getSeller().getWallet(), savedOrder);
-            Transaction savedTrans = transactionRepository.save(transaction);
+            Transactions transactions = new Transactions(null, amount, date, savedOrder.getSeller().getWallet(), savedOrder);
+            Transactions savedTrans = transactionRepository.save(transactions);
             Wallet wallet = savedOrder.getSeller().getWallet();
             wallet.setBalance(wallet.getBalance() + amount);
 
@@ -102,7 +102,7 @@ public class OrderService {
 
 
             savedOrder.setTotalPrice(totalPrice);
-            savedOrder.setTransaction(savedTrans);
+            savedOrder.setTransactions(savedTrans);
             orderRepository.save(savedOrder);
 
             responseObject.setData("Create done");

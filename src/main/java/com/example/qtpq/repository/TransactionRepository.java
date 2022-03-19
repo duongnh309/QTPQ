@@ -1,7 +1,6 @@
 package com.example.qtpq.repository;
 
-import com.example.qtpq.model.Transaction;
-import com.example.qtpq.model.Wallet;
+import com.example.qtpq.model.Transactions;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<Transactions, Long> {
 
-    Transaction getTransactionsByOrdersId(Long id);
+    Transactions getTransactionsByOrdersId(Long id);
 
     @Query(value = "SELECT * FROM transaction where  wallet_id = ?1" , nativeQuery = true)
-    List<Transaction> findAllByWallet(Long id);
+    List<Transactions> findAllByWallet(Long id);
 }

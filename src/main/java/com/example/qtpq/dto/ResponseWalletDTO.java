@@ -1,6 +1,5 @@
 package com.example.qtpq.dto;
 
-import com.example.qtpq.model.Transaction;
 import com.example.qtpq.model.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

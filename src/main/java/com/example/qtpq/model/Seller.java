@@ -28,7 +28,7 @@ public class Seller {
     private String password;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Menu menu;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Wallet wallet;
     //with order
     @OneToMany(mappedBy = "seller")

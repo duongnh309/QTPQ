@@ -4,10 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -44,5 +41,5 @@ public class Orders {
     private List<OrderDetail> orderDetails;
     //with transaction
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "orders")
-    private Transaction transaction;
+    private Transactions transactions;
 }
