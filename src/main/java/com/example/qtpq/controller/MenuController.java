@@ -50,12 +50,28 @@ public class MenuController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
+    @GetMapping("/menu/getProductInMenuWithName/{id}")
+    public ResponseEntity<ResponseObject> getProductInMenuWithName(@PathVariable("id") Long menuId,
+                                                                   @RequestParam String productName) {
+        ResponseObject responseObject = new ResponseObject();
+        try {
+            responseObject = menuService.getProductByName(menuId, productName);
+        } catch (Exception e) {
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setData(e.getMessage());
+            log.error(e.getMessage());
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
     @PostMapping("/menu/create")
     public ResponseEntity<ResponseObject> createMenu(@RequestBody MenuDataRequest menu, @RequestParam Long productId[]) {
         ResponseObject responseObject = new ResponseObject();
         try {
-            responseObject = menuService.createMenu(menu,productId);
-        }catch (Exception e){
+            responseObject = menuService.createMenu(menu, productId);
+        } catch (Exception e) {
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
             responseObject.setData(e.getMessage());

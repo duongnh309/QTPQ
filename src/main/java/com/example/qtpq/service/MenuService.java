@@ -52,6 +52,7 @@ public class MenuService {
 
     public ResponseObject getMenuById(Long id) {
         ResponseObject responseObject = new ResponseObject();
+
         Menu menuOptional = menuRepository.findById(id).get();
         MenuDTO menuDTO = new MenuDTO(menuOptional);
         if (menuDTO == null) {
@@ -61,6 +62,30 @@ public class MenuService {
             return responseObject;
         }
         responseObject.setData(menuDTO);
+        responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
+        responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
+        return responseObject;
+    }
+
+    public ResponseObject getProductByName(Long menuId, String productName){
+        ResponseObject responseObject = new ResponseObject();
+
+        Menu menuOptional = menuRepository.findById(menuId).get();
+        if (menuOptional == null) {
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setData("This menu does not exist");
+            return responseObject;
+        }
+        List<Product> productList = new ArrayList<>();
+        Product[] products = menuOptional.getProducts().toArray(new Product[menuOptional.getProducts().size()]);
+        for (int i = 0; i < products.length; i++) {
+            if(products[i].getProductName().contains(productName)){
+                productList.add(products[i]);
+
+            }
+        }
+        responseObject.setData(productList);
         responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
         responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
         return responseObject;

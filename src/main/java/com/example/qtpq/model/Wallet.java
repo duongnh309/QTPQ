@@ -35,7 +35,8 @@ public class Wallet {
     }
     public Wallet(List<Transaction> transactions){
         for (int i = 0; i < transactions.size(); i++) {
-            this.transactions.add(transactions.get(i));
+            this.transactions.get(i).setAmount(transactions.get(i).getAmount());
+            this.transactions.get(i).setCreateDate(transactions.get(i).getCreateDate());
         }
     }
 }

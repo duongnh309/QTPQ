@@ -51,6 +51,7 @@ public class OrderService {
             orders.setPhone(createOrderDTO.getPhone());
             orders.setSeller(seller);
             orders.setMenu(seller.getMenu());
+            orders.setState("NEW");
 
             Orders savedOrder = orderRepository.save(orders);
             log.info("saved orders {}", savedOrder.getId());
@@ -64,6 +65,9 @@ public class OrderService {
                             throw new IllegalStateException("Product have id " + productId + " does not exist");
                         });
                 int quanlity = createOrderDTO.getOrderDetailsDTOS().get(i).getQuanlity();
+                if (product.getQuanlity() < quanlity) {
+                    throw new IllegalStateException("Product have id " + productId + " does not enough to sell");
+                }
                 double price = quanlity * product.getUnitPrice();
                 totalPrice += price;
 
@@ -74,6 +78,8 @@ public class OrderService {
                         .quality(quanlity)
                         .build();
                 orderDetailRepository.save(orderDetail);
+                product.setQuanlity(product.getQuanlity() - quanlity);
+                productRepository.save(product);
             }
             double amount = totalPrice * 0.03;
             Transaction transaction = new Transaction(null, amount, date, savedOrder.getSeller().getWallet(), savedOrder);
@@ -91,8 +97,8 @@ public class OrderService {
 //                transactionDTOList.add(trans);
 //            }
 //            System.out.println("ta daaaaaaaaaa -------------------------" + transactions.size());
-            walletRepository.save(wallet);
 
+            walletRepository.save(wallet);
 
 
             savedOrder.setTotalPrice(totalPrice);
@@ -116,11 +122,13 @@ public class OrderService {
         try {
             List<Orders> ordersList = orderRepository.findAll();
             List<ResponseOrderDTO> list = new ArrayList<>();
-            for (Orders order : ordersList
-            ) {
+            for (Orders order : ordersList) {
                 ResponseOrderDTO responseOrderDTO = new ResponseOrderDTO(order);
+
                 list.add(responseOrderDTO);
+
             }
+
             responseObject.setData(list);
             responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());

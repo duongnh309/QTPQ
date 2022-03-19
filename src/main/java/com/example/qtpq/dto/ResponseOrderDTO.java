@@ -6,11 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseOrderDTO {
+    private Long order_id;
     private String customerName;
     private String roomNumber;
     private LocalDate orderDate;
@@ -20,10 +23,12 @@ public class ResponseOrderDTO {
 
     private Long menuId;
     private ResponseSellerDTO seller;
-    private OrderDetailsDTO orderDetails;
+    private List<OrderDetailsDTO> orderDetails = new ArrayList<>();
     private TransactionDTO transaction;
+    private String state ;
 
     public ResponseOrderDTO(Orders orders) {
+        this.order_id = orders.getId();
         this.customerName = orders.getCustomerName();
         this.roomNumber = orders.getRoomNumber();
         this.orderDate = orders.getOrderDate();
@@ -33,8 +38,10 @@ public class ResponseOrderDTO {
         this.menuId = orders.getMenu().getId();
         this.seller = new ResponseSellerDTO(orders.getSeller());
         for (int i = 0; i < orders.getOrderDetails().size(); i++) {
-            this.orderDetails = new OrderDetailsDTO(orders.getOrderDetails().get(i).getProduct().getId(), orders.getOrderDetails().get(i).getQuality());
+            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO(orders.getOrderDetails().get(i).getProduct().getId(), orders.getOrderDetails().get(i).getQuality());
+            this.orderDetails.add(orderDetailsDTO);
         }
         this.transaction = new TransactionDTO(orders.getTransaction());
+        this.state = orders.getState();
     }
 }

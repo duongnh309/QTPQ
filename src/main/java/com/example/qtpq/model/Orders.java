@@ -29,9 +29,10 @@ public class Orders {
     @Column(name = "total_price")
     private double totalPrice;
     private String phone;
+    private String state;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Location location;
-
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;

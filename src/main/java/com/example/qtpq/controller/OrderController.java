@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @PostMapping("/createOrder")
-    public ResponseEntity<ResponseObject> createOrder(@RequestBody CreateOrderDTO createOrderDTO){
+    @PostMapping("/chekout")
+    public ResponseEntity<ResponseObject> checkout(@RequestBody CreateOrderDTO createOrderDTO){
         ResponseObject responseObject = new ResponseObject();
         try {
             responseObject = orderService.createOrder(createOrderDTO);
