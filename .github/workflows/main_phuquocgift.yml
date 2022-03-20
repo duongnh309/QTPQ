@@ -50,4 +50,4 @@ jobs:
           app-name: 'PhuQuocGift'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FA78D01886484F079688DCD71C6260FC }}
-          package: '*.war'
+          package: '*.jar'
