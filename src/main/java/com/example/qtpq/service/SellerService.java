@@ -161,13 +161,8 @@ public class SellerService {
         try {
             Seller seller = sellerRepository.findSellerByUsername(loginDTO.getUsername());
             log.info("Seller data {}", seller.getId());
-            if(seller == null){
-                responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
-                responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
-                responseObject.setData("This username maybe wrong");
-                return responseObject;
-            }
-            else if(!seller.getPassword().equals(loginDTO.getPassword())){
+
+            if(!seller.getPassword().equals(loginDTO.getPassword())){
                 responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
                 responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
                 responseObject.setData("Your password is wrong");
@@ -177,6 +172,12 @@ public class SellerService {
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
             responseObject.setData(seller.getMenu().getId());
         }catch (Exception e) {
+            if(e.getMessage() == null){
+                responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+                responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+                responseObject.setData("This username maybe wrong");
+                return responseObject;
+            }
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
             responseObject.setData(e.getMessage());
