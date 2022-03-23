@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/catefory/create")
+    @PostMapping("/category/create")
     public ResponseEntity<ResponseObject> createCategory(@RequestParam("CategoryName") String name){
         ResponseObject responseObject = new ResponseObject();
         try {
@@ -40,6 +40,20 @@ public class CategoryController {
         }
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
+    @GetMapping("/category/getList")
+    public ResponseEntity<ResponseObject> getList(){
+        ResponseObject responseObject = new ResponseObject();
+        try{
+            responseObject = categoryService.getAll();
+        }catch (Exception e){
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            responseObject.setData(e.getMessage());
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
     @GetMapping("/category/getById/{id}")
     public ResponseEntity<ResponseObject> getByID(@PathVariable("id") Long id){
         ResponseObject responseObject = new ResponseObject();

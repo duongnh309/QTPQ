@@ -7,6 +7,7 @@ import com.example.qtpq.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +15,14 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public ResponseObject getAll() {
+        ResponseObject responseObject = new ResponseObject();
+        List<Category> categories = categoryRepository.findAll();
+        responseObject.setData(categories);
+        responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
+        responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
+        return responseObject;
+    }
     public ResponseObject createCategory(String  categoryName){
         ResponseObject responseObject = new ResponseObject();
         if(categoryName.isEmpty()){
