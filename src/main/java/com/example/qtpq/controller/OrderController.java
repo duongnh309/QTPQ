@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
     @PostMapping("/chekout")
-    public ResponseEntity<ResponseObject> checkout(@RequestBody CreateOrderDTO createOrderDTO){
+    public ResponseEntity<ResponseObject> checkout(@RequestBody CreateOrderDTO createOrderDTO) {
         ResponseObject responseObject = new ResponseObject();
         try {
             responseObject = orderService.createOrder(createOrderDTO);
-        }catch (Exception e){
+        } catch (Exception e) {
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
             responseObject.setData(e.getMessage());
@@ -29,12 +30,13 @@ public class OrderController {
         }
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
+
     @GetMapping("/getListOrders")
-    public ResponseEntity<ResponseObject> getList(){
+    public ResponseEntity<ResponseObject> getList() {
         ResponseObject responseObject = new ResponseObject();
         try {
             responseObject = orderService.getListOrder();
-        }catch (Exception e){
+        } catch (Exception e) {
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
             responseObject.setData(e.getMessage());
@@ -43,12 +45,13 @@ public class OrderController {
         }
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
+
     @GetMapping("/getOrdersById/{id}")
-    public ResponseEntity<ResponseObject> getOrdersById(@PathVariable("id") Long id){
+    public ResponseEntity<ResponseObject> getOrdersById(@PathVariable("id") Long id) {
         ResponseObject responseObject = new ResponseObject();
         try {
             responseObject = orderService.getOrderById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
             responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
             responseObject.setData(e.getMessage());
@@ -57,4 +60,20 @@ public class OrderController {
         }
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
+
+    @PostMapping("/updateOrderState/{id}")
+    public ResponseEntity<ResponseObject> getOrdersById(@PathVariable("id") Long id, @RequestParam String state) {
+        ResponseObject responseObject = new ResponseObject();
+        try {
+            responseObject = orderService.editState(id, state);
+        } catch (Exception e) {
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setData(e.getMessage());
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+
+        }
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
 }

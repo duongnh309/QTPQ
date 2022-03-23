@@ -158,4 +158,31 @@ public class OrderService {
 
         return responseObject;
     }
+    public ResponseObject editState(Long id, String state) {
+        ResponseObject responseObject = new ResponseObject();
+        try {
+            Orders orders = orderRepository.findById(id).orElseThrow(() -> {
+                throw new IllegalStateException("This orders does not exist");
+            });
+            if(state.equals("DELIVERY") || state.equals("SUCCESS") || state.equals("CANCEL")){
+                orders.setState(state);
+            }else{
+                responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+                responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+                responseObject.setData("This state is invalid");
+                return  responseObject;
+            }
+
+            Orders savedOrder = orderRepository.save(orders);
+            responseObject.setData(new ResponseOrderDTO(savedOrder));
+            responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
+            responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
+        } catch (Exception e) {
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setData(e.getMessage());
+        }
+
+        return responseObject;
+    }
 }
