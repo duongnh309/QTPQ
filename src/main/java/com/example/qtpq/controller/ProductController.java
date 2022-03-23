@@ -67,8 +67,8 @@ public class ProductController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
-    @GetMapping("/product/findById")
-    public ResponseEntity<ResponseObject> findProductById(@RequestParam("productID") Long id) {
+    @GetMapping("/product/findById/{id}")
+    public ResponseEntity<ResponseObject> findProductById(@PathVariable("id") Long id) {
         ResponseObject responseObject = new ResponseObject();
         if (id == null) {
             responseObject.setData("ID can't be null");
