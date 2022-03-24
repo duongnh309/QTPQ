@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuDTO {
+    private Long id;
     private String menuName;
     private String description;
     private LocalDate startDate;
@@ -26,6 +27,7 @@ public class MenuDTO {
     private List<Product> products = new ArrayList<>();
 
     public MenuDTO(Menu menu){
+        this.id = menu.getId();
         this.menuName = menu.getName();
         this.description = menu.getDescription();
         this.startDate = menu.getStartDate();
