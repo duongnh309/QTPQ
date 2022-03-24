@@ -67,12 +67,7 @@ public class SellerService {
             throw new IllegalStateException("This seller does not exist");
         });
         try {
-            if (!sellerDTO.getPassword().isEmpty()) {
-                seller.setPassword(sellerDTO.getPassword());
-            }
-            if (!sellerDTO.getQrCode().isEmpty()) {
-                seller.setQrCode(sellerDTO.getQrCode());
-            }
+
             if (!sellerDTO.getName().isEmpty()) {
                 seller.setName(sellerDTO.getName());
             }
@@ -82,9 +77,7 @@ public class SellerService {
             if (!sellerDTO.getMail().isEmpty()) {
                 seller.setMail(sellerDTO.getMail());
             }
-            if (sellerDTO.getPartnerId() != 0) {
-                seller.setPartner(partnerRepository.findById(sellerDTO.getPartnerId()).get());
-            }
+
 
             Seller savedSeller = sellerRepository.save(seller);
             responseObject.setData(new ResponseSellerDTO(savedSeller));
