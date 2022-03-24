@@ -11,16 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class UpdateSellerDTO {
-
     private String name;
     private String phone;
     private String mail;
-
-
-
-    public UpdateSellerDTO(Seller seller) {
-        this.name = seller.getName();
-        this.phone = seller.getPhone();
-        this.mail = seller.getMail();
-    }
 }
