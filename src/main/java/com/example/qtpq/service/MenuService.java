@@ -80,10 +80,15 @@ public class MenuService {
         List<Product> productList = new ArrayList<>();
         Product[] products = menuOptional.getProducts().toArray(new Product[menuOptional.getProducts().size()]);
         for (int i = 0; i < products.length; i++) {
-            if(products[i].getProductName().contains(productName)){
+            if(products[i].getProductName().toLowerCase().contains(productName.toLowerCase())){
                 productList.add(products[i]);
-
             }
+        }
+        if(productList.size() == 0){
+            responseObject.setData("This product does not match");
+            responseObject.setMessage(ResponseCode.Common.FAILED.getMessage());
+            responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
+            return responseObject;
         }
         responseObject.setData(productList);
         responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
