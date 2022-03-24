@@ -9,6 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ResponseSellerDTO {
+    private Long id;
     private String username;
     private String qrCode;
     private String name;
@@ -19,6 +20,7 @@ public class ResponseSellerDTO {
 
 
     public ResponseSellerDTO(Seller seller) {
+        this.id = seller.getId();
         this.username = seller.getUsername();
         this.qrCode = seller.getQrCode();
         this.name = seller.getName();
