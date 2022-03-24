@@ -163,7 +163,7 @@ public class SellerService {
             }
             responseObject.setStatus(ResponseCode.Common.SUCCESS.getCode());
             responseObject.setMessage(ResponseCode.Common.SUCCESS.getMessage());
-            responseObject.setData(seller.getMenu().getId());
+            responseObject.setData(new ResponseLoginDTO(seller));
         }catch (Exception e) {
             if(e.getMessage() == null){
                 responseObject.setStatus(ResponseCode.Common.FAILED.getCode());
